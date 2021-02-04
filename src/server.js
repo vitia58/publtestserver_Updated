@@ -22,12 +22,12 @@ app.get('/listarts', function (request, response) {
         response.end(JSON.stringify(processed));
     });
 });
-app.get('/article', function (request, response) {
+app.get('/article:article', function (request, response) {
     console.log(request.url);
     response.writeHead(200, { 'Content-Type': 'text/json; charset=utf-8' });
     var is = true;
     try {
-        var article = request.query.id;
+        var article = request.params.article;
         if (is && article && article.length === 24) {
             db_1.getArticle(article).then(function (result) { return response.end(JSON.stringify(result)); });
         }
@@ -39,12 +39,12 @@ app.get('/article', function (request, response) {
         is = false;
     }
 });
-app.get('/comments', function (request, response) {
+app.get('/comments:article', function (request, response) {
     console.log(request.url);
     response.writeHead(200, { 'Content-Type': 'text/json; charset=utf-8' });
     var is = true;
     try {
-        var article = request.query.id;
+        var article = request.params.article;
         if (is && article && article.length === 24)
             db_1.getComments(article).then(function (comments) {
                 response.end(JSON.stringify(comments));

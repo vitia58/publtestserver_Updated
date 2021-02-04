@@ -21,12 +21,12 @@ app.get('/listarts', (request, response) => {
         response.end(JSON.stringify(processed))
     });
 })
-app.get('/article', (request, response) => {
+app.get('/article:article', (request, response) => {
     console.log(request.url);
     response.writeHead(200, {'Content-Type': 'text/json; charset=utf-8'});
     let is: boolean = true;
     try {
-        const article: string | undefined | any = request.query.id;
+        const article: string | undefined | any = request.params.article;
         if (is && article && article.length === 24) {
             getArticle(article).then(result => response.end(JSON.stringify(result)));
         } else response.end('{"title":"Not Found!", "text": "404\\nNot Found!"}');
@@ -35,12 +35,12 @@ app.get('/article', (request, response) => {
         is = false;
     }
 });
-app.get('/comments', (request, response) => {
+app.get('/comments:article', (request, response) => {
     console.log(request.url);
     response.writeHead(200, {'Content-Type': 'text/json; charset=utf-8'});
     let is: boolean = true;
     try {
-        const article: String | any = request.query.id;
+        const article: string | undefined | any = request.params.article;
         if (is && article && article.length === 24) getComments(article).then(comments => {
             response.end(JSON.stringify(comments));
         })
